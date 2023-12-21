@@ -16,7 +16,7 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 import os
-import july
+import calplot
 
 import subprocess
 from sklearn.model_selection import train_test_split
@@ -199,28 +199,63 @@ with header:
     
     print(date_last_watered_sentence)
     
-    calendar, watering_date_text_box = st.columns([3,3])
+    calendar, watering_date_text_box = st.columns([7,3])
     with calendar:
         
-        ## Create a figure with a single axes
+            ## Create a figure with a single axes
         daily_df = new_df.groupby('date').max().fillna(0)[['watering_event']].reset_index()
-
-        fig, ax = plt.subplots(figsize=(2, 2))
+    
+    # =============================================================================
+    #     fig, ax = plt.subplots(figsize=(2, 2))
+    #     chosen_month = daily_df.date.max().month
+    #     print(chosen_month)
+    # 
+    #     ## Tell july to make a plot in a specific axes
+    #     # july.month_plot(dates, data, month=2, date_label=True, ax=ax, colorbar=True)
+    #     july.month_plot(daily_df.date, daily_df.watering_event,month=chosen_month, cmap="Blues",
+    #                     date_label=True, ax=ax, fontsize=5,month_label=None, weeknum_label=False,   );
+    #     plt.xticks(fontsize=5)
+    # 
+    #     ## Tell streamlit to display the figure
+    #     st.pyplot(fig,use_container_width=True)
+    # =============================================================================
+        
+    
+        # This is going to be a switch to using the calplot library instead of july as that does not work when deployed to streamlit for hosting
+        
         chosen_month = daily_df.date.max().month
+        
+        daily_df['month'] = pd.to_datetime(daily_df['date']).dt.month
+        viz_daily_df = daily_df#[daily_df['month']==chosen_month]
+        
+        values = viz_daily_df.watering_event.values
+        len(values)
+        days = pd.to_datetime(viz_daily_df.date)
+        len(days)
+        events_tm = pd.Series(values, index=days)
         print(chosen_month)
     
         ## Tell july to make a plot in a specific axes
         # july.month_plot(dates, data, month=2, date_label=True, ax=ax, colorbar=True)
-        july.month_plot(daily_df.date, daily_df.watering_event,month=chosen_month, cmap="Blues",
-                        date_label=True, ax=ax, fontsize=5,month_label=None, weeknum_label=False,   );
-        plt.xticks(fontsize=5)
-
+        fig = plt.figure(figsize=(10,10))
+        ax = plt.gca()
+        calplot.yearplot(events_tm, edgecolor=None, cmap='Blues_r', ax=ax)
+        plt.xticks(fontsize=10)
         ## Tell streamlit to display the figure
-        st.pyplot(fig,use_container_width=True)
+        st.pyplot(fig,use_container_width=True)        
         
-
-
-
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
         # the following sections preprocess the data for the model prediction
         
         df_2['date'] = df_2.created_at.str.split(' ').str[0]
@@ -269,23 +304,23 @@ with header:
         days_since_last_watered_df['days_since_last_watered'] = days_since_last_watered_df['days_since_last_watered'].astype(str).str.split(' ').str[0].astype(float)
         
         df_2 = df_2.merge(days_since_last_watered_df[['date','feed_id','days_since_last_watered']], on=['feed_id','date'],how='left')
-
-
+    
+    
         unique_feeds = [x for x in df_2.feed_id.value_counts().index]
         
         #st.dataframe(df)
         
         test_selected_plant_df = df_2[df_2.feed_id==selected_feed_id].sort_values('created_at').tail(1)
-
+    
         # prepare the data to be input into the model
         
         columns_to_remove = ['id', 'soil_moisture_value', 'feed_id', 'created_at', 'name', 'key','previous_reading_time_value', 'time_delta_since_last_reading','previous_reading_value','date']
         columns_to_keep = [x for x in df_2.columns if x not in columns_to_remove]
-
+    
         valid_df = test_selected_plant_df[columns_to_keep].copy()
         independent_variables = [x for x in valid_df.columns if x!='watering_event']
         dependent_variable = 'watering_event'
-
+    
         input_df = valid_df[columns_to_keep].copy().fillna(0)
         input_df.replace([np.inf, -np.inf], np.nan, inplace=True)
         input_df = input_df.dropna()
@@ -345,10 +380,10 @@ with header:
                     st.write(model_prediction_text)
         else:
             st.write(' ')
-            
-            
-    # the code below generates a line graph showing the daily min max and
-    # mean values for the moisture readings of the selected plant
+        
+        
+# the code below generates a line graph showing the daily min max and
+# mean values for the moisture readings of the selected plant
 # =============================================================================
 #     viz_df = df.melt(id_vars='date',var_name='moisture_reading_type')
 #     st.header('Moisture readings over time')
@@ -359,8 +394,8 @@ with header:
 #             fig.add_vline(x=watering_df.reset_index().date[i], line_width=3, line_dash="dash", line_color="green")
 #     st.plotly_chart(fig, theme='streamlit', use_container_width=True)
 # =============================================================================
-    # this new chart is based on the soil moisture absorption rate which seems to be a much simpler approach to understanding watering events
-    
+# this new chart is based on the soil moisture absorption rate which seems to be a much simpler approach to understanding watering events
+
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_absorption_rate']
     st.header('Moisture readings over time')
