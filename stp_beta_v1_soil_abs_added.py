@@ -294,7 +294,7 @@ with header:
         
         
         # Load pre-trained classification model
-        model = load_model('/Users/tariromashongamhende/Downloads/water_today_model.h5')
+        model = load_model('water_today_model.h5')
         prediction = model.predict(input_X_values)
         prediction_rounded = prediction.round(0)
         
