@@ -89,3 +89,4 @@ Werkzeug==2.3.6
 scikit-learn
 seaborn
 joblib
+july==0.1.3
