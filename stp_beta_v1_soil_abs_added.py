@@ -191,7 +191,7 @@ with header:
     
     if len(watering_df)>1:
         watering_df['last_water_date'] = watering_df['date'].shift(1)
-        watering_df['days_since_last_water'] = abs(watering_df.date - watering_df.last_water_date).dt.days
+        watering_df['days_since_last_water'] = abs(pd.to_datetime(watering_df.date) - pd.to_datetime(watering_df.last_water_date)).dt.days
         
     
     
