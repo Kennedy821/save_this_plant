@@ -377,7 +377,11 @@ with header:
             if average_number_of_days_between_waterings>=2:
                 if average_number_of_days_between_waterings<30:
                     st.write('Your ' + selected_plant.replace('_',' ').title() + ' is typically being watered every ' +str(int(average_number_of_days_between_waterings))+' days.')
-                    st.write(model_prediction_text)
+                    if prediction_rounded==1:
+                        st.markdown(f':orange[{model_prediction_text}]')
+                    elif prediction_rounded==0:
+                        st.markdown(f':blue[{model_prediction_text}]')
+
         else:
             st.write(' ')
         
@@ -398,10 +402,38 @@ with header:
 
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_absorption_rate']
-    st.header('Moisture readings over time')
+    viz_df = viz_df.groupby(['date','moisture_reading_type']).mean().reset_index()
+
+    st.header('Moisture absorption rate')
     fig = px.line(viz_df, x='date',y='value',color='moisture_reading_type')
     if len(watering_df)>0:
         for i in range(len(watering_df)):
             fig.add_vline(x=watering_df.reset_index().date[i], line_width=3, line_dash="dash", line_color="green")
+    fig.update_layout(legend=dict(
+    orientation="h",
+    yanchor="bottom",
+    y=1.02,
+    xanchor="right",
+    x=1
+        ))
+    st.plotly_chart(fig, theme='streamlit', use_container_width=True)
+    
+    
+    st.header('Soil moisture levels')
+    
+    viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
+    viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_value']
+    viz_df = viz_df.groupby(['date','moisture_reading_type']).mean().reset_index()
+    fig = px.line(viz_df, x='date',y='value',color='moisture_reading_type')
+    if len(watering_df)>0:
+        for i in range(len(watering_df)):
+            fig.add_vline(x=watering_df.reset_index().date[i], line_width=3, line_dash="dash", line_color="green")
+    fig.update_layout(legend=dict(
+    orientation="h",
+    yanchor="bottom",
+    y=1.02,
+    xanchor="right",
+    x=1
+        ))
     st.plotly_chart(fig, theme='streamlit', use_container_width=True)
 
