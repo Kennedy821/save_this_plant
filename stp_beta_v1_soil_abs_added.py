@@ -334,7 +334,7 @@ with header:
         prediction_rounded = prediction.round(0)
         
         if prediction_rounded==1:
-            model_prediction_text = f'We think you should check this plant to see if needs to be watered.'
+            model_prediction_text = f'We think you should check this plant to see if it needs to be watered.'
         else:
             model_prediction_text = f"Your plant seems to be doing great and doesn't need to be watered right now."
 
