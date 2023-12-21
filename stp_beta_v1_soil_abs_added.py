@@ -69,7 +69,7 @@ st.set_page_config(layout='wide' )
 logo, header = st.columns([3,7])
 
 with logo:
-    st.image('/Users/tariromashongamhende/Downloads/stp_logo.jpg', width=150)
+    st.image('stp_logo.jpg', width=150)
     
     # directory with latest moisture readings
 # =============================================================================
@@ -89,7 +89,7 @@ with logo:
 #     df = pd.concat(df_container)
 # =============================================================================
     
-    df = pd.read_csv('/Users/tariromashongamhende/Documents/save_this_plant_beta/clean_plant_readings_single_file/test_combined_plant_sensor_soil_moisture_readings_data_all_soil_moisture_abs_rate_added.csv').rename(columns={'name':'plant_name'})
+    df = pd.read_csv('test_combined_plant_sensor_soil_moisture_readings_data_all_soil_moisture_abs_rate_added.csv').rename(columns={'name':'plant_name'})
     df['plant_name'] = df['plant_name'].str.split(' - ').str[-1]
 
     plant_names_list = [x for x in df.plant_name.value_counts().index]
