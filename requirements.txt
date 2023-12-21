@@ -1,9 +1,8 @@
-﻿streamlit
+streamlit
 pandas
 plotly
 plotly-express
 matplotlib
-os
 july==0.1.3
 scikit-learn
 tensorflow
