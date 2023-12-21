@@ -86,4 +86,6 @@ tzlocal==4.3.1
 validators==0.20.0
 webencodings==0.5.1
 Werkzeug==2.3.6
-
+scikit-learn
+seaborn
+joblib

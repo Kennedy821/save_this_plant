@@ -25,7 +25,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.tree import DecisionTreeRegressor
