@@ -259,7 +259,7 @@ with header:
         # the following sections preprocess the data for the model prediction
         
         df_2['date'] = df_2.created_at.str.split(' ').str[0]
-        day_level_watering_df = df_2.groupby(['feed_id','date']).max()[['watering_event']].reset_index()
+        day_level_watering_df = df_2[['feed_id','date','watering_event']].groupby(['feed_id','date']).max().reset_index()
         
         list_of_feed_ids = [x for x in day_level_watering_df.feed_id.value_counts().index]
         new_df_container = []
@@ -406,9 +406,11 @@ with header:
 
     st.header('Moisture absorption rate')
     fig = px.line(viz_df, x='date',y='value',color='moisture_reading_type')
-    if len(watering_df)>0:
-        for i in range(len(watering_df)):
-            fig.add_vline(x=watering_df.reset_index().date[i], line_width=3, line_dash="dash", line_color="green")
+# =============================================================================
+#     if len(watering_df)>0:
+#         for i in range(len(watering_df)):
+#             fig.add_vline(x=watering_df.reset_index().date[i], line_width=3, line_dash="dash", line_color="green")
+# =============================================================================
     fig.update_layout(legend=dict(
     orientation="h",
     yanchor="bottom",
@@ -425,9 +427,11 @@ with header:
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_value']
     viz_df = viz_df.groupby(['date','moisture_reading_type']).mean().reset_index()
     fig = px.line(viz_df, x='date',y='value',color='moisture_reading_type')
-    if len(watering_df)>0:
-        for i in range(len(watering_df)):
-            fig.add_vline(x=watering_df.reset_index().date[i], line_width=3, line_dash="dash", line_color="green")
+# =============================================================================
+#     if len(watering_df)>0:
+#         for i in range(len(watering_df)):
+#             fig.add_vline(x=watering_df.reset_index().date[i], line_width=3, line_dash="dash", line_color="green")
+# =============================================================================
     fig.update_layout(legend=dict(
     orientation="h",
     yanchor="bottom",
