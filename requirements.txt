@@ -7,7 +7,6 @@ july==0.1.3
 scikit-learn
 tensorflow
 numpy
-pickle
 math
 itertools
 joblib
