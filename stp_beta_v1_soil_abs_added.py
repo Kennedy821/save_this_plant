@@ -65,7 +65,7 @@ plant_mapping_ids = []
 st.set_page_config(layout='wide' )
 
 
-logo, header = st.columns([3,7])
+logo, header = st.columns([3,10])
 
 with logo:
     st.image('stp_logo.jpg', width=150)
