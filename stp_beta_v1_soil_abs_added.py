@@ -404,7 +404,8 @@ with header:
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_absorption_rate']
     viz_df = viz_df[['date','value']].groupby(['date']).mean().reset_index()
     viz_df.date = viz_df.date.astype(str)
-    
+    viz_df.value = viz_df.value.fillna(np.nan).astype(float)
+    st.dataframe(viz_df)
     # create a full date rage to account for days when meter readings fail
     
     full_date_ranges = pd.date_range(start=viz_df.date.min(),end=viz_df.date.max())
@@ -417,7 +418,7 @@ with header:
     viz_df.value = viz_df.value.fillna(np.nan).astype(float)
     st.dataframe(viz_df)
 
-    viz_df.value = viz_df.value.astype(float).interpolate(method='linear')
+    viz_df.value = viz_df.value.astype(float).interpolate(method='pad')
     viz_df = viz_df.reset_index()
     st.markdown('pandas version=='+pd.__version__)
     st.dataframe(viz_df)
