@@ -405,7 +405,6 @@ with header:
     viz_df = viz_df[['date','value']].groupby(['date']).mean().reset_index()
     viz_df.date = viz_df.date.astype(str)
     viz_df.value = viz_df.value.fillna(np.nan).astype(float)
-    st.dataframe(viz_df)
     # create a full date rage to account for days when meter readings fail
     
     full_date_ranges = pd.date_range(start=viz_df.date.min(),end=viz_df.date.max())
