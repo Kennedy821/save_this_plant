@@ -418,9 +418,9 @@ with header:
     viz_df.value = viz_df.value.fillna(np.nan).astype(float)
     st.dataframe(viz_df)
 
-    viz_df.value = viz_df.value.astype(float).interpolate(method='pad')
-    viz_df.value = viz_df.value.astype(float)
-    viz_df.value = viz_df.value.fillna(0)
+    viz_df['value'] = viz_df['value'].astype(float).interpolate(method='pad')
+    viz_df['value'] = viz_df['value'].astype(float)
+    viz_df['value'] = viz_df['value'].astype(str).fillna('0')
     viz_df = viz_df.reset_index()
     st.markdown('pandas version=='+pd.__version__)
     st.dataframe(viz_df)
