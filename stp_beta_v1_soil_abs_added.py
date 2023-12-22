@@ -402,7 +402,7 @@ with header:
 
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_absorption_rate']
-    viz_df = viz_df.groupby(['date']).mean()
+    viz_df = viz_df[['date','value']].groupby(['date']).mean()
     viz_df = viz_df.value.interpolate() 
     viz_df = viz_df.reset_index()
     st.header('Moisture absorption rate')
@@ -426,7 +426,7 @@ with header:
     
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_value']
-    viz_df = viz_df.groupby(['date']).mean()
+    viz_df = viz_df[['date','value']].groupby(['date']).mean()
     viz_df = viz_df.value.interpolate() 
 
     viz_df = viz_df.reset_index()
