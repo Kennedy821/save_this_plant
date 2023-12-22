@@ -237,10 +237,14 @@ with header:
     
         ## Tell july to make a plot in a specific axes
         # july.month_plot(dates, data, month=2, date_label=True, ax=ax, colorbar=True)
+        plt.style.use('dark_background')
         fig = plt.figure(figsize=(10,10))
         ax = plt.gca()
-        calplot.yearplot(events_tm, edgecolor=None, cmap='Blues_r', ax=ax)
-        plt.xticks(fontsize=10)
+        ax.set_facecolor('black')
+        calplot.yearplot(events_tm, edgecolor='lightgrey', cmap='autumn_r', ax=ax, dropzero=True, fillcolor='black', linecolor='white',linewidth=0.01)
+        plt.xticks(fontsize=8)
+        plt.yticks(fontsize=8)
+
         ## Tell streamlit to display the figure
         st.pyplot(fig,use_container_width=True)        
         
