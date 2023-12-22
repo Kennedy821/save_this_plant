@@ -402,9 +402,17 @@ with header:
 
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_absorption_rate']
-    viz_df = viz_df[['date','value']].groupby(['date']).mean()
-    viz_df = viz_df.value.interpolate() 
-    viz_df = viz_df.reset_index()
+    viz_df = viz_df[['date','value']].groupby(['date']).mean().reset_index()
+    viz_df.date = viz_df.date.astype(str)
+    
+    # create a full date rage to account for days when meter readings fail
+    
+    full_date_ranges = pd.date_range(start=viz_df.date.min(),end=viz_df.date.max())
+    full_date_range_df = pd.DataFrame(full_date_ranges)
+    full_date_range_df.columns = ['date']
+    full_date_range_df['date'] = full_date_range_df.date.astype(str).str.split(' ').str[0]
+    viz_df = full_date_range_df.merge(viz_df, on='date', how='left')
+    viz_df.value = viz_df.value.interpolate()
     st.header('Moisture absorption rate')
     fig = px.line(viz_df, x='date',y='value')
 # =============================================================================
@@ -426,10 +434,17 @@ with header:
     
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_value']
-    viz_df = viz_df[['date','value']].groupby(['date']).mean()
-    viz_df = viz_df.value.interpolate() 
-
-    viz_df = viz_df.reset_index()
+    viz_df = viz_df[['date','value']].groupby(['date']).mean().reset_index()
+    viz_df.date = viz_df.date.astype(str)
+    
+    # create a full date rage to account for days when meter readings fail
+    
+    full_date_ranges = pd.date_range(start=viz_df.date.min(),end=viz_df.date.max())
+    full_date_range_df = pd.DataFrame(full_date_ranges)
+    full_date_range_df.columns = ['date']
+    full_date_range_df['date'] = full_date_range_df.date.astype(str).str.split(' ').str[0]
+    viz_df = full_date_range_df.merge(viz_df, on='date', how='left')
+    viz_df.value = viz_df.value.interpolate()
     fig = px.line(viz_df, x='date',y='value')
 # =============================================================================
 #     if len(watering_df)>0:
