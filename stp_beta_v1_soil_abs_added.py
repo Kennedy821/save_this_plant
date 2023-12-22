@@ -419,7 +419,8 @@ with header:
     st.dataframe(viz_df)
 
     viz_df.value = viz_df.value.astype(float).interpolate(method='pad')
-    viz_df.value = viz_df.value.interpolate(method='linear')
+    viz_df.value = viz_df.value.astype(float)
+    viz_df.value = viz_df.value.fillna(np.nan).interpolate('linear')
     viz_df = viz_df.reset_index()
     st.markdown('pandas version=='+pd.__version__)
     st.dataframe(viz_df)
