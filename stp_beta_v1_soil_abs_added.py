@@ -412,10 +412,10 @@ with header:
     full_date_range_df.columns = ['date']
     full_date_range_df['date'] = full_date_range_df.date.astype(str).str.split(' ').str[0]
     viz_df = full_date_range_df.merge(viz_df, on='date', how='left')
-    viz_df.value = viz_df.value.fillna(np.nan)
+    viz_df.value = viz_df.value.fillna(np.nan).astype(float)
     st.dataframe(viz_df)
 
-    viz_df.value = viz_df.value.interpolate()
+    viz_df.value = viz_df.value.astype(float).interpolate()
     st.markdown('pandas version=='+pd.__version__)
     st.dataframe(viz_df)
     st.header('Moisture absorption rate')
