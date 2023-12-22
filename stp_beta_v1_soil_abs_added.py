@@ -413,6 +413,7 @@ with header:
     full_date_range_df['date'] = full_date_range_df.date.astype(str).str.split(' ').str[0]
     viz_df = full_date_range_df.merge(viz_df, on='date', how='left')
     viz_df.value = viz_df.value.interpolate()
+    st.dataframe(viz_df)
     st.header('Moisture absorption rate')
     fig = px.line(viz_df, x='date',y='value')
 # =============================================================================
