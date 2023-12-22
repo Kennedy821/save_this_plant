@@ -402,7 +402,7 @@ with header:
 
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_absorption_rate']
-    viz_df = viz_df.groupby(['date','moisture_reading_type']).mean().reset_index()
+    viz_df = viz_df.groupby(['date','moisture_reading_type']).mean().interpolate().reset_index()
 
     st.header('Moisture absorption rate')
     fig = px.line(viz_df, x='date',y='value',color='moisture_reading_type')
@@ -425,7 +425,7 @@ with header:
     
     viz_df = new_df.melt(id_vars='date',var_name='moisture_reading_type')
     viz_df = viz_df[viz_df['moisture_reading_type']=='soil_moisture_value']
-    viz_df = viz_df.groupby(['date','moisture_reading_type']).mean().reset_index()
+    viz_df = viz_df.groupby(['date','moisture_reading_type']).mean().interpolate().reset_index()
     fig = px.line(viz_df, x='date',y='value',color='moisture_reading_type')
 # =============================================================================
 #     if len(watering_df)>0:
