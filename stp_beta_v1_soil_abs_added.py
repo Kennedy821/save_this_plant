@@ -328,7 +328,7 @@ with header:
         input_df = valid_df[columns_to_keep].copy().fillna(0)
         input_df.replace([np.inf, -np.inf], np.nan, inplace=True)
         input_df = input_df.dropna()
-        #st.dataframe(input_df[independent_variables])
+        st.dataframe(input_df[independent_variables])
         input_X_values = input_df[independent_variables].drop(columns='plant_name').values
         
         
