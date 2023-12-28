@@ -318,10 +318,14 @@ with header:
     
         # prepare the data to be input into the model
         
-        columns_to_remove = ['id', 'soil_moisture_value', 'feed_id', 'created_at', 'name', 'key','previous_reading_time_value', 'time_delta_since_last_reading','previous_reading_value','date']
+        columns_to_remove = ['id', 'soil_moisture_value', 'feed_id', 'created_at', 'name', 'key','previous_reading_time_value', 'time_delta_since_last_reading','previous_reading_value','date','soil_moisture_value_24hr_trailing',
+       'change_vs_soil_moisture_value_24hr_trailing',
+       'soil_moisture_value_48hr_trailing',
+       'change_vs_soil_moisture_value_48hr_trailing']
         columns_to_keep = [x for x in df_2.columns if x not in columns_to_remove]
     
         valid_df = test_selected_plant_df[columns_to_keep].copy()
+        
         independent_variables = [x for x in valid_df.columns if x!='watering_event']
         dependent_variable = 'watering_event'
     
