@@ -88,7 +88,7 @@ with logo:
 #     df = pd.concat(df_container)
 # =============================================================================
     
-    df = pd.read_parquet('2023_12_28_master_test_combined_plant_sensor_soil_moisture_readings_data_all_soil_moisture_abs_rate_added.parquet.gzip').rename(columns={'name':'plant_name'})
+    df = pd.read_parquet('2024_01_06_master_test_combined_plant_sensor_soil_moisture_readings_data_all_soil_moisture_abs_rate_added.parquet.gzip').rename(columns={'name':'plant_name'})
     df['plant_name'] = df['plant_name'].str.split(' - ').str[-1]
 
     plant_names_list = [x for x in df.plant_name.value_counts().index]
