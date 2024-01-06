@@ -481,5 +481,7 @@ with header:
     xanchor="right",
     x=1
         ))
+    fig.update_layout(yaxis_range=[0, 100])
+
     st.plotly_chart(fig, theme='streamlit', use_container_width=True)
 
