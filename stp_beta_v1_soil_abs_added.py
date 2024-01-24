@@ -241,7 +241,8 @@ with header:
         fig = plt.figure(figsize=(10,10))
         ax = plt.gca()
         ax.set_facecolor('black')
-        calplot.calplot(events_tm, edgecolor='black', cmap='autumn', ax=ax, dropzero=True, fillcolor='whitesmoke', linecolor='black',linewidth=1.5)
+        #calplot.yearplot(events_tm, edgecolor='black', cmap='autumn', ax=ax, dropzero=True, fillcolor='whitesmoke', linecolor='black',linewidth=1.5)
+        fig = calplot.calplot(events_tm, edgecolor=None, cmap='YlGn') 
         plt.xticks(fontsize=8)
         plt.yticks(fontsize=8)
 
