@@ -247,7 +247,7 @@ with header:
         plt.yticks(fontsize=8)
 
         ## Tell streamlit to display the figure
-        st.pyplot(fig,use_container_width=True)        
+        st.pyplot(fig[0],use_container_width=True)        
         
         
         
